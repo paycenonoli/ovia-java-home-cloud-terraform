@@ -40,16 +40,16 @@ resource "aws_route_table" "ovia-public-rt" {
 # Associate route table with public subnets
 resource "aws_route_table_association" "public-asso" {
   count = length(var.pub_cidrs) # N/B
-  subnet_id      = locals.pub_sub_ids[count.index] # N/B
+  subnet_id      = aws_subnet.ovia-public.*.id[count.index] # N/B
   route_table_id = aws_route_table.ovia-public-rt.id
 }
 
-# Create privat subnets
+# Create private subnets
 resource "aws_subnet" "ovia-private" {
   count      = length(var.pri_cidrs) # N/B
   vpc_id     = aws_vpc.ovia-vpc.id
   cidr_block = var.pri_cidrs[count.index] # N/B
-  availability_zone = locals.azs[count.index] # N/B
+  availability_zone = data.aws_availability_zones.ovia-azs.names[count.index] # N/B
   tags = {
     Name = "Private-${count.index + 1}" # N/B
   }
@@ -57,3 +57,4 @@ resource "aws_subnet" "ovia-private" {
 
 # Create NAT Gateway and configure the private route table to point to the NAT Gateway
 
+ 
