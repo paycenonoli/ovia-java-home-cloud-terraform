@@ -1,6 +1,6 @@
 module "ovia-vpc" {
   source   = "./modules/networking"
-  vpc_cidr = var.vpc_cidr
+  vpc_cidr = "10.1.0.0/16"
 }
 
 module "ovia-ec2" {
