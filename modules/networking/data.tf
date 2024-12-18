@@ -1,1 +1,3 @@
-data "aws_availability_zones" "ovia-azs" {}
+data "aws_availability_zones" "ovia-azs" {
+    state = "available"
+}
